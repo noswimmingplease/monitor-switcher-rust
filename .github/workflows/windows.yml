@@ -1,0 +1,42 @@
+# Language: en-GB
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Configure Rust
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal --component rustfmt --target x86_64-pc-windows-msvc
+          if ($LASTEXITCODE -ne 0) { throw 'Rust toolchain installation failed.' }
+
+      - name: Test and build
+        run: |
+          $compiler = rustup which --toolchain 1.99.0 rustc
+          if ($LASTEXITCODE -ne 0) { throw 'Rust compiler lookup failed.' }
+          ./scripts/Build.ps1 -ToolchainBin (Split-Path -Parent $compiler)
+
+      - name: Check publishable files and executable
+        run: ./scripts/Check-Privacy.ps1

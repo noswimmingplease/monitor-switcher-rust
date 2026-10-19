@@ -1,0 +1,30 @@
+[package]
+name = "monitor-switcher-rust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "GPL-3.0-only"
+publish = false
+description = "Monitor Switcher — native Windows monitor profiles in one executable"
+build = "build.rs"
+
+[[bin]]
+name = "MonitorSwitcher"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { version = "=0.33.3", default-features = false, features = ["default_fonts", "glow", "accesskit"] }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+image = { version = "0.25", default-features = false, features = ["ico"] }
+raw-window-handle = "=0.6.2"
+windows-sys = { version = "=0.61.2", features = ["Win32_Devices_Display", "Win32_Foundation", "Win32_Graphics_Gdi", "Win32_System_LibraryLoader", "Win32_System_Registry", "Win32_System_Threading", "Win32_Security", "Win32_Storage_FileSystem", "Win32_UI_Controls", "Win32_UI_HiDpi", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+
+[build-dependencies]
+winresource = "0.1"
+
+[profile.release]
+opt-level = "s"
+lto = "thin"
+codegen-units = 1
+strip = true
