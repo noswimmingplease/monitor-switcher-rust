@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.ico -text
+# Keep the upstream licence texts unchanged, including their whitespace.
+assets/THIRD-PARTY-LICENCES.txt -whitespace

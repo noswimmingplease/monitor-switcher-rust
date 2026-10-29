@@ -1,0 +1,21 @@
+/target/
+/.build/
+/dist/
+*.log
+
+# Local application data, hardware exports, credentials and installation backups.
+/backups/
+/.local/
+/settings.json*
+/monitor-aliases.json*
+/ui-settings.json*
+/monitor-inspection*.json
+/hardware-inspection*.json
+*.cfg
+*.cfg.*
+.env
+.env.*
+*.pfx
+*.p12
+*.pem
+*.key
